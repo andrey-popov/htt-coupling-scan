@@ -1,0 +1,9 @@
+# Scan over signal hypotheses
+
+This repository contains scripts to perform a scan over parameters of signal hypothesis in a search for H&rarr;tt. Signal hypotheses include two CP states and several representative values for the mass and the width of the Higgs boson. For each such case a scan over the coupling value g is performed, and the CL<sub>s</sub> value is computed. If it's less than 0.05, the considered hypothesis is said to be excluded at the 95% confidence level.
+
+Script `scan.py` computes the CL<sub>s</sub> value as a function of g. Under the hood, it calls the [`combine` tool](https://github.com/cms-analysis/HiggsAnalysis-CombinedLimit) in a thread pool. It should be run in the environment required by `combine`. Physics model, data cards, and distributions are not included in this repository. The scan in g is adaptive and will use a smaller step size when CL<sub>s</sub>(g) &approx; 0.05.
+
+Results of the scan are saved in a JSON file. At the top level it contains a dictionary, whose keys are labels that define the CP state, mass, and the width for the signal. Its values are lists with results of the scan. Each entry of the list is another list consisting of the value of the couping g, observed CL<sub>s</sub> value, and the five expected values, for -2&sigma;, -1&sigma;, median, +1&sigma;, and +2&sigma;, in that order. The entries are ordered in g.
+
+Script `plot.py` plots results of the scans. For each individual signal hypothesis it plots CL<sub>s</sub>(g). It also produces exclusion plots on the plane of the mass and the coupling, for each combination of the CP state and the width. It can handle non-trivial topology for the exclusion regions, such as having a disconnected &lsquo;island&rsquo;. This script is run in the [LCG_94python3](http://lcginfo.cern.ch/release/94python3) environment.
